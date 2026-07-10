@@ -95,15 +95,39 @@ CYCLE -. Level 1 → Refill .-> FILL
 
 ## ⚙️ PLC Logic
 
-<!-- 📷 replace with the single ladder screenshot of the full routine -->
-![Water Tank Control Logic](Images/logic-watertank.png)
+### Fill Sequence
 
-A single compact routine drives the entire process as timer-based state logic:
+<!-- 📷 replace with ladder screenshot of the fill routine -->
+![Fill Sequence Logic](Images/logic-fill.png)
 
-- **Fill Sequence**: opens the fill valve and raises the analog level until it reaches the high setpoint (99).
-- **Heater Sequence**: at level 99, filling stops and the heater energizes for a 10-second timed cycle.
-- **Drain Sequence**: when heating completes, the heater turns off and the drain valve opens until the level reaches the low setpoint (1).
-- **Automatic Repeat**: at level 1, the drain closes and filling restarts, cycling the process continuously with no operator input.
+Opens the fill valve and raises the analog level until it reaches the high setpoint (99), then hands off to the heat stage.
+
+---
+
+### Heater Sequence
+
+<!-- 📷 replace with ladder screenshot of the heater routine -->
+![Heater Sequence Logic](Images/logic-heater.png)
+
+At level 99, filling stops and the heater energizes for a 10-second timed cycle before advancing to the drain stage.
+
+---
+
+### Drain Sequence
+
+<!-- 📷 replace with ladder screenshot of the drain routine -->
+![Drain Sequence Logic](Images/logic-drain.png)
+
+When heating completes, the heater turns off and the drain valve opens until the level reaches the low setpoint (1). The fill and drain valves are interlocked so they never operate together.
+
+---
+
+### Automatic Repeat
+
+<!-- 📷 replace with ladder screenshot of the cycle/restart routine -->
+![Automatic Repeat Logic](Images/logic-repeat.png)
+
+At level 1, the drain valve closes and filling restarts, cycling the process continuously with no operator input.
 
 <!-- 🎥 -->
 [▶ ProcessLogic.mp4](Videos/ProcessLogic.mp4)
