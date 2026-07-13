@@ -6,7 +6,7 @@
 <h1 align="center">Industrial Water Tank Process Control System</h1>
 
 <p align="center">
-  Allen-Bradley CompactLogix PLC control system that continuously automates a fill, heat, and drain tank process with analog level control and FactoryTalk View HMI supervision.
+  Industrial PLC automation system that continuously controls tank filling, heating, and drainage using state-based ladder logic, analog level simulation, and FactoryTalk View HMI supervision.
 </p>
 
 <p align="center">
@@ -33,7 +33,9 @@
 
 ## 📌 Project Overview
 
-An Allen-Bradley CompactLogix PLC system that runs a self-repeating water tank process, filling to level 99, holding a timed heat cycle, then draining to level 1 before refilling, continuously and with no operator input.
+An industrial process-control application that continuously fills a tank to a high-level setpoint, performs a timed heating cycle, and drains the tank to a low-level setpoint before automatically repeating.
+
+The project demonstrates state-based process automation, analog level simulation, timer sequencing, process interlocks, and HMI development using Allen-Bradley CompactLogix and FactoryTalk View.
 
 ### 🎯 Control Objectives
 
@@ -95,7 +97,7 @@ CYCLE -. Level 1 → Refill .-> FILL
 
 ## ⚙️ PLC Logic
 
-### Fill Sequence
+### Fill State
 
 ![Fill Sequence Logic](Water%20Tank-%20Fill%20Sequence.png)
 
@@ -103,7 +105,7 @@ The process is state-driven, and in **State 0** (fill) the fill valve is energiz
 
 ---
 
-### Heater Sequence
+### Heat State
 
 ![Heater Sequence Logic](Water%20tank-%20heater%20sequence.png)
 
@@ -111,7 +113,7 @@ In **State 1** the heater is energized and a `TON` runs a 10-second (`10000 ms`)
 
 ---
 
-### Drain Sequence
+### Drain State
 
 ![Drain Sequence Logic](Water%20tank-%20Drain%20seq.png)
 
@@ -119,7 +121,7 @@ When heating completes, the heater turns off and the drain valve opens until the
 
 ---
 
-### Automatic Repeat
+### Automatic Reset
 
 ![Automatic Repeat Logic](Water%20Tank-%20Repeat%20.png)
 
@@ -151,6 +153,7 @@ At level 1, the drain valve closes and filling restarts, cycling the process con
 | 10-Second Heating Cycle | ✅ Verified |
 | Tank Drainage | ✅ Verified |
 | Minimum Level Detection | ✅ Verified |
+| Fill/Drain Interlock | ✅ Verified |
 | Automatic Restart | ✅ Verified |
 | HMI Communication | ✅ Verified |
 | PLC Communication | ✅ Verified |
@@ -165,6 +168,7 @@ At level 1, the drain valve closes and filling restarts, cycling the process con
 - ✔ Interlocked the fill and drain valves to prevent conflicting operation
 - ✔ Built a FactoryTalk View HMI with live tank animation and process status
 - ✔ Verified continuous automatic operation on physical Allen-Bradley hardware
+- ✔ Designed a continuous process-control application capable of autonomous operation without operator intervention
 
 ---
 
