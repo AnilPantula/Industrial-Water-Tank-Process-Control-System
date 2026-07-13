@@ -107,7 +107,7 @@ The process is state-driven, and in **State 0** (fill) the fill valve is energiz
 
 ![Heater Sequence Logic](Water%20tank-%20heater%20sequence.png)
 
-At level 99, filling stops and the heater energizes for a 10-second timed cycle before advancing to the drain stage.
+In **State 1** the heater is energized and a `TON` runs a 10-second (`10000 ms`) cycle. When `heat_timer.DN` sets, the logic moves `tank_state` to 2, advancing to the drain stage.
 
 ---
 
