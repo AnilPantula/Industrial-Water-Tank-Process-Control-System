@@ -1,6 +1,6 @@
-<!-- HERO IMAGE: replace with a wide HMI / tank overview screenshot -->
+<!-- HERO IMAGE -->
 <p align="center">
-  <img src="Images/hero-watertank.png" alt="Industrial Water Tank Process Control System HMI Overview" width="100%">
+  <img src="Water%20tank-%20mian%20pic.png" alt="Industrial Water Tank Process Control System HMI Overview" width="100%">
 </p>
 
 <h1 align="center">Industrial Water Tank Process Control System</h1>
@@ -97,8 +97,7 @@ CYCLE -. Level 1 → Refill .-> FILL
 
 ### Fill Sequence
 
-<!-- 📷 replace with ladder screenshot of the fill routine -->
-![Fill Sequence Logic](Images/logic-fill.png)
+![Fill Sequence Logic](Water%20Tank-%20Fill%20Sequence.png)
 
 Opens the fill valve and raises the analog level until it reaches the high setpoint (99), then hands off to the heat stage.
 
@@ -106,8 +105,7 @@ Opens the fill valve and raises the analog level until it reaches the high setpo
 
 ### Heater Sequence
 
-<!-- 📷 replace with ladder screenshot of the heater routine -->
-![Heater Sequence Logic](Images/logic-heater.png)
+![Heater Sequence Logic](Water%20tank-%20heater%20sequence.png)
 
 At level 99, filling stops and the heater energizes for a 10-second timed cycle before advancing to the drain stage.
 
@@ -115,8 +113,7 @@ At level 99, filling stops and the heater energizes for a 10-second timed cycle 
 
 ### Drain Sequence
 
-<!-- 📷 replace with ladder screenshot of the drain routine -->
-![Drain Sequence Logic](Images/logic-drain.png)
+![Drain Sequence Logic](Water%20tank-%20Drain%20seq.png)
 
 When heating completes, the heater turns off and the drain valve opens until the level reaches the low setpoint (1). The fill and drain valves are interlocked so they never operate together.
 
@@ -124,8 +121,7 @@ When heating completes, the heater turns off and the drain valve opens until the
 
 ### Automatic Repeat
 
-<!-- 📷 replace with ladder screenshot of the cycle/restart routine -->
-![Automatic Repeat Logic](Images/logic-repeat.png)
+![Automatic Repeat Logic](Water%20Tank-%20Repeat%20.png)
 
 At level 1, the drain valve closes and filling restarts, cycling the process continuously with no operator input.
 
