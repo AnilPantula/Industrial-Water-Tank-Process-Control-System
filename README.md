@@ -1,12 +1,12 @@
-<!-- HERO IMAGE -->
+<!-- HERO IMAGE: replace with a wide HMI / process overview screenshot -->
 <p align="center">
-  <img src="Water%20tank-%20mian%20pic.png" alt="Industrial Water Tank Process Control System HMI Overview" width="100%">
+  <img src="Images/hero-carwash.png" alt="Industrial Car Wash Automation System HMI Overview" width="100%">
 </p>
 
-<h1 align="center">Industrial Water Tank Process Control System</h1>
+<h1 align="center">Industrial Car Wash Automation System</h1>
 
 <p align="center">
-  Allen-Bradley CompactLogix PLC control system that continuously automates a fill, heat, and drain tank process with analog level control and FactoryTalk View HMI supervision.
+  Allen-Bradley CompactLogix PLC control system that automatically detects a vehicle and executes a full soap → wash → dry sequence with timer-based, state-driven control and FactoryTalk View HMI supervision.
 </p>
 
 <p align="center">
@@ -26,22 +26,24 @@
 
 <!-- Replace with an embedded GIF or a linked MP4/YouTube walkthrough. GIFs autoplay inline on GitHub. -->
 <p align="center">
-  <img src="Videos/system-demo.gif" alt="System demo, continuous fill heat drain cycle" width="90%">
+  <img src="Videos/system-demo.gif" alt="System demo, full automatic wash cycle" width="90%">
 </p>
 
 ---
 
 ## 📌 Project Overview
 
-An Allen-Bradley CompactLogix PLC system that runs a self-repeating water tank process, filling to a high setpoint, holding a timed heat cycle, then draining to a low setpoint before refilling, continuously and with no operator input.
+An Allen-Bradley CompactLogix PLC system that fully automates an industrial car wash, from vehicle detection through soap, wash, dry, and exit, with no operator input.
 
 ### 🎯 Control Objectives
 
-- Automatically fill the tank to the high setpoint (level 99).
-- Stop filling and hold a 10-second heat cycle at maximum level.
-- Drain the tank to the low setpoint (level 1) once heating completes.
-- Prevent the fill and drain valves from ever operating at the same time.
-- Restart the cycle automatically and run the process continuously.
+- Automatically detect an incoming vehicle before the cycle starts.
+- Run the full soap, wash, and dry sequence without operator intervention.
+- Prevent overlapping stages so only one operation is ever active at a time.
+- Position the vehicle using conveyor motion and limit-switch feedback.
+- Time each stage with independent presets that trigger the next step automatically.
+- Stop instantly and de-energize every output on Master Stop.
+- Return to the ready state (State 0) automatically for the next vehicle.
 
 ---
 
@@ -49,26 +51,27 @@ An Allen-Bradley CompactLogix PLC system that runs a self-repeating water tank p
 
 | Feature | Value |
 |---------|-------|
-| **Process** | Continuous Fill → Heat → Drain Cycle |
+| **Process** | Fully Automatic Soap → Wash → Dry Cycle |
 | **PLC** | Allen-Bradley CompactLogix 5370 |
 | **HMI** | FactoryTalk View + PanelView Plus |
 | **IDE** | Studio 5000 Logix Designer |
 | **Communication** | EtherNet/IP |
-| **Control Type** | Analog Level, Timer-Based State Control |
+| **Control Type** | Sequential, Timer-Based State Control |
 | **Testing** | Validated on Allen-Bradley Hardware |
 
 ---
 
 ## ✨ Features
 
-- ✔ Automatic Filling
-- ✔ Automatic Draining
-- ✔ Automatic Heating
-- ✔ Continuous Process Cycling
-- ✔ Analog Tank-Level Simulation
-- ✔ Heater Timer (10 s)
-- ✔ Process Sequencing
-- ✔ State-Based Automation
+- ✔ Automatic Vehicle Detection
+- ✔ Sequential Process Control (Soap → Wash → Dry)
+- ✔ Timer-Based Cycle Control
+- ✔ Conveyor Motor Control
+- ✔ Limit-Switch Positioning
+- ✔ Automatic State Transitions
+- ✔ Process Interlocks
+- ✔ Master Start / Master Stop Safety
+- ✔ Automatic Reset for Next Vehicle
 - ✔ Live HMI Monitoring
 
 ---
@@ -81,62 +84,71 @@ HMI["FactoryTalk View HMI"]
 NET["EtherNet/IP"]
 PLC["Allen-Bradley<br/>CompactLogix PLC"]
 HMI --> NET --> PLC
-PLC --> FILL["🚰 Fill Valve"]
-FILL --> TANK["🛢️ Tank"]
-TANK --> HEAT["🔥 Heater"]
-HEAT --> DRAIN["💧 Drain Valve"]
-DRAIN --> CYCLE["Repeat Cycle"]
-CYCLE -. Level 1 → Refill .-> FILL
+PLC --> CTRL["Controls Process Logic<br/>Timers • Sensors • Outputs"]
+CTRL --> DETECT["🚗 Vehicle Detection"]
+DETECT --> SOAP["🧼 Soap Station"]
+SOAP --> WASH["💦 Wash Station"]
+WASH --> CONV["➡️ Conveyor"]
+CONV --> LIMIT["📍 Limit Switch"]
+LIMIT --> DRYER["🌬️ Dryer"]
+DRYER --> EXIT["➡️ Exit Conveyor"]
+EXIT --> READY["Ready for Next Vehicle"]
+READY -. Repeat Cycle .-> DETECT
 ```
 
-<sub>Fill raises the level to 99, which stops filling and starts the 10-second heat; draining lowers the level to 1, which closes the drain and restarts the fill. The loop repeats continuously.</sub>
+<sub>Master Start arms the system; vehicle detection triggers the sequence; each stage advances on a preset timer or limit switch; Master Stop de-energizes all outputs immediately.</sub>
 
 ---
 
 ## ⚙️ PLC Logic
 
-### Fill Sequence
+### Sequential Process, Timers, Vehicle Detection & Dryer
 
-![Fill Sequence Logic](Water%20Tank-%20Fill%20Sequence.png)
+<!-- 📷 replace with the ladder screenshot containing the full sequence -->
+![Core Process Logic](Images/logic-core-process.png)
 
-The process is state-driven, and in **State 0** (fill) the fill valve is energized. A self-resetting `TON`, gated by its own `.DN` bit, generates a repeating pulse whose done bit increments the `water_level` tag by 1 through an `ADD`, simulating the analog level rising. Once the level reaches **99**, the logic moves `tank_state` to 1, advancing to the heat stage.
+The core routine runs the full wash cycle as timer-driven state logic:
 
----
-
-### Heater Sequence
-
-![Heater Sequence Logic](Water%20tank-%20heater%20sequence.png)
-
-In **State 1** the heater is energized and a `TON` runs a 10-second (`10000 ms`) cycle. When `heat_timer.DN` sets, the logic moves `tank_state` to 2, advancing to the drain stage.
-
----
-
-### Drain Sequence
-
-![Drain Sequence Logic](Water%20tank-%20Drain%20seq.png)
-
-When heating completes, the heater turns off and the drain valve opens until the level reaches the low setpoint (1). The fill and drain valves are interlocked so they never operate together.
-
----
-
-### Automatic Repeat
-
-![Automatic Repeat Logic](Water%20Tank-%20Repeat%20.png)
-
-At level 1, the drain valve closes and filling restarts, cycling the process continuously with no operator input.
+- **Vehicle Detection**: with the system armed, the car-detection sensor is the permissive that launches the cycle, preventing any start on an empty bay.
+- **Sequential States**: steps soap → wash → dry → exit in a fixed order; each stage energizes only after the previous one completes, so operations never overlap.
+- **Timers**: independent soap, wash, and dry presets set each stage's duration, and their timer-done bits drive the automatic transition to the next state.
 
 <!-- 🎥 -->
 [▶ ProcessLogic.mp4](Videos/ProcessLogic.mp4)
 
 ---
 
+### Automatic Reset
+
+<!-- 📷 replace with ladder screenshot of the reset routine -->
+![Reset Logic](Images/logic-reset.png)
+
+Once the vehicle exits the bay, the **Car Out** condition (`Car_Out.DN`) is activated. This energizes the OTE that resets the car wash sequence back to **State 0**, the beginning, clearing all active states and returning the system to ready, automatically armed for the next vehicle with no operator input.
+
+<!-- 🎥 -->
+[▶ Reset.mp4](Videos/Reset.mp4)
+
+---
+
+### Master Stop Safety Logic
+
+<!-- 📷 replace with ladder screenshot of the Master Stop routine -->
+![Master Stop Logic](Images/logic-master-stop.png)
+
+Master Stop is evaluated ahead of all process logic. Pressing it immediately halts the sequence and de-energizes every output regardless of the current state.
+
+<!-- 🎥 -->
+[▶ MasterStop.mp4](Videos/MasterStop.mp4)
+
+---
+
 ## 🧠 Engineering Challenges
 
-- **Maintaining continuous process flow**: sequencing the loop so it restarts cleanly and runs indefinitely without stalls.
-- **Coordinating fill, heat, and drain stages**: handing each stage off to the next based on level setpoints and the heat timer.
-- **Preventing simultaneous fill and drain**: interlocking the valves so the two states can never energize together.
-- **Automatic cycling**: returning to the fill state at the low setpoint with no manual reset.
-- **Clean ladder organization**: keeping the whole process in one readable, maintainable routine.
+- **Maintaining correct process order**: enforcing a strict soap → wash → dry → exit sequence with no skipped or out-of-order stages.
+- **Preventing overlapping operations**: ensuring only one station is active at a time so outputs never energize simultaneously.
+- **Coordinating multiple timers**: sequencing independent soap, wash, and dry timers so each hands off cleanly to the next.
+- **Ensuring automatic reset**: returning the system to the ready state so the next vehicle runs with no manual intervention.
+- **Creating reusable ladder logic**: structuring the program into clean, state-driven routines that are easy to debug and extend.
 
 ---
 
@@ -144,14 +156,14 @@ At level 1, the drain valve closes and filling restarts, cycling the process con
 
 | Function | Status |
 |----------|:------:|
-| Tank Filling | ✅ Verified |
-| Water Level Control | ✅ Verified |
-| Maximum Level Detection | ✅ Verified |
-| Heater Operation | ✅ Verified |
-| 10-Second Heating Cycle | ✅ Verified |
-| Tank Drainage | ✅ Verified |
-| Minimum Level Detection | ✅ Verified |
-| Automatic Restart | ✅ Verified |
+| Master Start | ✅ Verified |
+| Vehicle Detection | ✅ Verified |
+| Soap Cycle | ✅ Verified |
+| Wash Cycle | ✅ Verified |
+| Conveyor Movement | ✅ Verified |
+| Limit Switch | ✅ Verified |
+| Dryer Cycle | ✅ Verified |
+| Master Stop | ✅ Verified |
 | HMI Communication | ✅ Verified |
 | PLC Communication | ✅ Verified |
 
@@ -159,12 +171,12 @@ At level 1, the drain valve closes and filling restarts, cycling the process con
 
 ## 📈 Results
 
-- ✔ Developed a complete PLC program for a continuous fill, heat, and drain process
-- ✔ Implemented analog tank-level simulation with high and low setpoint control
-- ✔ Designed timer-based, state-driven ladder logic with automatic cycling
-- ✔ Interlocked the fill and drain valves to prevent conflicting operation
-- ✔ Built a FactoryTalk View HMI with live tank animation and process status
-- ✔ Verified continuous automatic operation on physical Allen-Bradley hardware
+- ✔ Developed a complete PLC program for a fully automatic car wash sequence
+- ✔ Designed timer-based, state-driven ladder logic with automatic transitions
+- ✔ Integrated vehicle-detection and limit-switch sensing for positioning
+- ✔ Built a FactoryTalk View HMI for real-time process monitoring
+- ✔ Verified PLC I/O and HMI communication on physical Allen-Bradley hardware
+- ✔ Validated the full cycle, automatic reset, and Master Stop safety response
 
 ---
 
@@ -174,12 +186,11 @@ At level 1, the drain valve closes and filling restarts, cycling the process con
 ![Studio 5000](https://img.shields.io/badge/Studio%205000-004B87?style=flat-square)
 ![FactoryTalk View](https://img.shields.io/badge/FactoryTalk%20View-F58025?style=flat-square)
 ![Allen-Bradley](https://img.shields.io/badge/Allen--Bradley-CC0000?style=flat-square)
+![Sequential Control](https://img.shields.io/badge/Sequential%20Control-1565C0?style=flat-square)
 ![Industrial Automation](https://img.shields.io/badge/Industrial%20Automation-455A64?style=flat-square)
-![Process Control](https://img.shields.io/badge/Process%20Control-1565C0?style=flat-square)
-![Tank Level Control](https://img.shields.io/badge/Tank%20Level%20Control-0072C6?style=flat-square)
-![Sequential Control](https://img.shields.io/badge/Sequential%20Control-283593?style=flat-square)
+![Conveyor Control](https://img.shields.io/badge/Conveyor%20Control-00695C?style=flat-square)
 ![Timers](https://img.shields.io/badge/Timers-6A1B9A?style=flat-square)
-![Analog Simulation](https://img.shields.io/badge/Analog%20Simulation-00838F?style=flat-square)
+![Sensor Integration](https://img.shields.io/badge/Sensor%20Integration-0072C6?style=flat-square)
 ![HMI Development](https://img.shields.io/badge/HMI%20Development-F58025?style=flat-square)
 ![Commissioning](https://img.shields.io/badge/Commissioning-00897B?style=flat-square)
 ![PLC Troubleshooting](https://img.shields.io/badge/PLC%20Troubleshooting-B71C1C?style=flat-square)
