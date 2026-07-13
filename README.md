@@ -99,7 +99,7 @@ CYCLE -. Level 1 → Refill .-> FILL
 
 ![Fill Sequence Logic](Water%20Tank-%20Fill%20Sequence.png)
 
-Opens the fill valve and raises the analog level until it reaches the high setpoint (99), then hands off to the heat stage.
+The process is state-driven, and in **State 0** (fill) the fill valve is energized. A self-resetting `TON`, gated by its own `.DN` bit, generates a repeating pulse whose done bit increments the `water_level` tag by 1 through an `ADD`, simulating the analog level rising. Once the level reaches **99**, the logic moves `tank_state` to 1, advancing to the heat stage.
 
 ---
 
