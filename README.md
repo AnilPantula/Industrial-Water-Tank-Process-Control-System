@@ -130,7 +130,7 @@ At level 1, the drain valve closes and filling restarts, cycling the process con
 
 ### Full PLC Logic Walkthrough
 
-[▶ water tank-ladder logic.mp4](water%20tank-ladder%20logic.mp4)
+[▶ water tank-ladder logic.mp4](water%20tank-ladder%20logic(1).mp4)
 
 A complete rung-by-rung walkthrough of the routine, showing the state machine advance through fill, heat, drain, and automatic reset live, with the analog level, timers, and valve interlock updating in real time.
 
