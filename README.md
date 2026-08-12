@@ -26,7 +26,7 @@
 
 <!-- Replace with an embedded GIF or a linked MP4/YouTube walkthrough. GIFs autoplay inline on GitHub. -->
 <p align="center">
-  <img src="water tank demo.mp4" alt="System demo, continuous fill heat drain cycle" width="90%">
+  <(water%20tank%20demo.mp4)>
 </p>
 
 ---
