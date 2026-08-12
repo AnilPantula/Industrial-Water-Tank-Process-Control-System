@@ -26,7 +26,7 @@
 
 <!-- Replace with an embedded GIF or a linked MP4/YouTube walkthrough. GIFs autoplay inline on GitHub. -->
 <p align="center">
-  <img src="Videos/system-demo.gif" alt="System demo, continuous fill heat drain cycle" width="90%">
+  <img src="water tank demo.mp4" alt="System demo, continuous fill heat drain cycle" width="90%">
 </p>
 
 ---
@@ -132,7 +132,7 @@ At level 1, the drain valve closes and filling restarts, cycling the process con
 ### Full PLC Logic Walkthrough
 
 <!-- 🎥 link or embed Videos/LogicWalkthrough.mp4 -->
-[▶ LogicWalkthrough.mp4](Videos/LogicWalkthrough.mp4)
+[▶ LogicWalkthrough.mp4](water tank-ladder logic.mp4)
 
 A complete rung-by-rung walkthrough of the routine, showing the state machine advance through fill, heat, drain, and automatic reset live, with the analog level, timers, and valve interlock updating in real time.
 
