@@ -25,7 +25,7 @@
 ## ▶️ Demo
 
 <p align="center">
-  <video src="water tank demo.mp4" width="100%" controls></video>
+  <video src="water_tank_demo.mp4" width="100%" controls></video>
 </p>
 
 Full continuous fill, heat, and drain cycle running on the HMI.
