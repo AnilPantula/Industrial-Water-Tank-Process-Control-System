@@ -24,7 +24,9 @@
 
 ## ▶️ Demo
 
-<video src="https://github.com/AnilPantula/Industrial-Water-Tank-Process-Control-System/raw/main/water%20tank%20demo.mp4" controls width="90%"></video>
+<p align="center">
+  <video src="water tank demo" width="100%" controls></video>
+</p>
 
 Full continuous fill, heat, and drain cycle running on the HMI.
 
