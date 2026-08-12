@@ -24,7 +24,8 @@
 
 ## ▶️ Demo
 
-[▶ water tank demo.mp4](water%20tank%20demo.mp4)
+<!-- Replace USER/REPO (and branch if not main) with your repo path. This renders as an inline video player. -->
+<video src="https://github.com/USER/REPO/raw/main/water%20tank%20demo.mp4" controls width="90%"></video>
 
 Full continuous fill, heat, and drain cycle running on the HMI.
 
@@ -130,7 +131,8 @@ At level 1, the drain valve closes and filling restarts, cycling the process con
 
 ### Full PLC Logic Walkthrough
 
-[▶ water tank-ladder logic.mp4](water%20tank-ladder%20logic(1).mp4)
+<!-- Replace USER/REPO (and branch if not main) with your repo path. This renders as an inline video player. -->
+<video src="https://github.com/USER/REPO/raw/main/water%20tank-ladder%20logic.mp4" controls width="90%"></video>
 
 A complete rung-by-rung walkthrough of the routine, showing the state machine advance through fill, heat, drain, and automatic reset live, with the analog level, timers, and valve interlock updating in real time.
 
