@@ -25,7 +25,7 @@
 ## ▶️ Demo
 
 <p align="center">
-  <video src="water_tank_demo.mp4" width="100%" controls></video>
+  <video src="[water_tank_demo.mp4](https://github.com/user-attachments/assets/9a0ede02-2bae-41cc-b620-4a1a291b5ae5)" width="100%" controls></video>
 </p>
 
 Full continuous fill, heat, and drain cycle running on the HMI.
